@@ -22,8 +22,27 @@ const passes = [];
 const pass = message => passes.push(message);
 const fail = message => problems.push(message);
 
-async function get(path, redirect = "follow") {
-  return fetch(`${base}${path}`, { redirect, headers: { "user-agent": "qansa-blog-verify" } });
+/**
+ * A deploy just went live, so the edge can answer with a transient 403 from bot
+ * heuristics or a 5xx while the new bundle propagates. Retry those briefly;
+ * anything else is a real failure.
+ */
+async function get(path, redirect = "follow", attempts = 4) {
+  let response;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    response = await fetch(`${base}${path}`, {
+      redirect,
+      headers: {
+        "user-agent": "Mozilla/5.0 (compatible; qansa-blog-verify/1.0)",
+        accept: "text/html,application/xml,text/plain,*/*",
+        "cache-control": "no-cache",
+      },
+    });
+    const retryable = [403, 429, 500, 502, 503, 504].includes(response.status);
+    if (!retryable) return response;
+    await new Promise(resolve => setTimeout(resolve, 1500 * (attempt + 1)));
+  }
+  return response;
 }
 
 async function main() {
