@@ -38,7 +38,7 @@ const MERMAID_CONFIG = {
       'ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
     fontSize: "17px",
   },
-  flowchart: { curve: "basis", padding: 12 },
+  flowchart: { curve: "basis", padding: 12, diagramPadding: 24 },
 };
 
 const PUPPETEER_CONFIG = {
