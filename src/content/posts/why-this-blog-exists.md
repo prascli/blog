@@ -33,7 +33,7 @@ are the source of truth, and a push rebuilds the published site.
 ## Where else this appears
 
 <figure>
-  <img src="/diagrams/why-this-blog-exists-0.svg" alt="Publishing flow in three stages. Signal: merged pull requests enter a candidate queue that is scored and deduplicated. Selection: one candidate is picked per week, trend-checked, then drafted in markdown. Publishing: the diagram is rendered, the article goes live here as the canonical page, and is cross-posted to dev.to with canonical_url." width="858" height="532" loading="lazy" decoding="async">
+  <img src="/diagrams/why-this-blog-exists-0.svg" alt="Publishing flow in three stages. Signal: merged pull requests enter a candidate queue that is scored and deduplicated. Selection: one candidate is picked per week, trend-checked, then drafted in markdown. Publishing: the diagram is rendered, the article goes live here as the canonical page, and is cross-posted to dev.to with canonical_url." width="843" height="462" loading="lazy" decoding="async">
   <figcaption>From merged pull request to canonical page.</figcaption>
 </figure>
 
