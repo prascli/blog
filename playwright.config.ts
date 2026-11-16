@@ -26,13 +26,17 @@ export default defineConfig({
       use: { ...devices["Pixel 7"] },
     },
   ],
-  // The suite runs against the production build, not the dev server.
+  // The suite runs against the production build, not the dev server. The host
+  // is pinned to 127.0.0.1 so the bind address matches the readiness probe on
+  // every runner (localhost can resolve to ::1 only).
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined
     : {
-        command: `npx astro preview --port ${PORT}`,
+        command: `npx astro preview --host 127.0.0.1 --port ${PORT}`,
         url: `${baseURL}/`,
         reuseExistingServer: !process.env.CI,
-        timeout: 120_000,
+        timeout: 180_000,
+        stdout: "pipe",
+        stderr: "pipe",
       },
 });

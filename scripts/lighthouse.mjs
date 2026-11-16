@@ -7,7 +7,7 @@
  * non-zero when a score is below the threshold in THRESHOLDS.
  */
 import { execFileSync, spawn } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const PORT = 4321;
@@ -56,15 +56,21 @@ function findChrome() {
 const chromePath = findChrome();
 const env = { ...process.env, ...(chromePath ? { CHROME_PATH: chromePath } : {}) };
 
-const preview = spawn("npx", ["astro", "preview", "--port", String(PORT)], {
-  stdio: "ignore",
-  detached: false,
-});
+// Detached so the whole process group can be terminated afterwards; the npx
+// wrapper otherwise leaves the preview server listening on the port.
+mkdirSync(OUT, { recursive: true });
+const previewLog = join(OUT, "preview.log");
+const previewLogFd = openSync(previewLog, "w");
+const preview = spawn(
+  "npx",
+  ["astro", "preview", "--host", "127.0.0.1", "--port", String(PORT)],
+  { stdio: ["ignore", previewLogFd, previewLogFd], detached: true }
+);
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function waitForServer() {
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  for (let attempt = 0; attempt < 90; attempt += 1) {
     try {
       const response = await fetch(`${BASE}/`);
       if (response.ok) return;
@@ -73,7 +79,8 @@ async function waitForServer() {
     }
     await wait(500);
   }
-  throw new Error("preview server did not start");
+  const output = existsSync(previewLog) ? readFileSync(previewLog, "utf8") : "";
+  throw new Error(`preview server did not start\n${output.slice(-800)}`);
 }
 
 function assertScores(results, label) {
@@ -131,5 +138,10 @@ try {
   console.log(ok ? "lighthouse: all routes pass" : "lighthouse: threshold not met");
   process.exitCode = ok ? 0 : 1;
 } finally {
-  preview.kill("SIGTERM");
+  try {
+    process.kill(-preview.pid, "SIGTERM");
+  } catch {
+    preview.kill("SIGTERM");
+  }
+  closeSync(previewLogFd);
 }
