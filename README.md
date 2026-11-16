@@ -64,14 +64,14 @@ docs/                   architecture, content, SEO, deployment, testing
 
 ## Documentation
 
-| Document | Contents |
-| --- | --- |
-| [docs/AUDIT.md](docs/AUDIT.md) | What was in production before this rebuild, options considered, decisions |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Stack, content model, rendering, URL strategy, design system |
-| [docs/CONTENT_GUIDELINES.md](docs/CONTENT_GUIDELINES.md) | Writing, frontmatter, categories, diagrams, review checklist |
-| [docs/SEO.md](docs/SEO.md) | Metadata, structured data, feeds, sitemap, indexing checklist |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | CI/CD, secrets, deploys, rollback, the homelab fallback |
-| [docs/TESTING.md](docs/TESTING.md) | Test suites, how to run them, Lighthouse budgets, results |
+| Document                                                 | Contents                                                                  |
+| -------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [docs/AUDIT.md](docs/AUDIT.md)                           | What was in production before this rebuild, options considered, decisions |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)             | Stack, content model, rendering, URL strategy, design system              |
+| [docs/CONTENT_GUIDELINES.md](docs/CONTENT_GUIDELINES.md) | Writing, frontmatter, categories, diagrams, review checklist              |
+| [docs/SEO.md](docs/SEO.md)                               | Metadata, structured data, feeds, sitemap, indexing checklist             |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)                 | CI/CD, secrets, deploys, rollback, the homelab fallback                   |
+| [docs/TESTING.md](docs/TESTING.md)                       | Test suites, how to run them, Lighthouse budgets, results                 |
 
 ## Credits and licence
 
