@@ -27,9 +27,11 @@ const MERMAID_CONFIG = {
     secondaryTextColor: "#16181c",
     tertiaryColor: "#efe9df",
     tertiaryTextColor: "#16181c",
-    lineColor: "#5b626d",
+    lineColor: "#3f454e",
     textColor: "#16181c",
     clusterBkg: "#efe9df",
+    titleColor: "#16181c",
+    clusterTextColor: "#16181c",
     clusterBorder: "#c3baad",
     edgeLabelBackground: "#f7f4ee",
     fontFamily:
