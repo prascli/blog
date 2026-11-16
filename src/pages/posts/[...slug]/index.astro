@@ -141,7 +141,10 @@ const breadcrumbs = [
 
   <main
     id="main-content"
-    class:list={["app-layout", { "mt-6": !config.features.showBackButton }]}
+    class:list={[
+      "app-layout pb-20 sm:pb-0",
+      { "mt-6": !config.features.showBackButton },
+    ]}
     data-pagefind-body
   >
     <div class="kicker flex flex-wrap items-center gap-2">
@@ -164,12 +167,12 @@ const breadcrumbs = [
       class="text-muted-foreground mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm"
     >
       <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-      <span aria-hidden="true" class="text-muted-foreground/50">/</span>
+      <span aria-hidden="true" class="text-muted-foreground">/</span>
       <span>{minutes} min read</span>
       <span
         aria-hidden="true"
         class:list={[
-          "text-muted-foreground/50",
+          "text-muted-foreground max-sm:hidden",
           { hidden: !config.features.editPost?.enabled || hideEditPost },
         ]}
       >
@@ -276,7 +279,7 @@ const breadcrumbs = [
       heading.classList.add("group");
       const link = document.createElement("a");
       link.className =
-        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+        "heading-link ms-2 no-underline opacity-0 transition-opacity group-hover:opacity-75 focus-visible:opacity-75";
       link.href = "#" + heading.id;
       link.setAttribute(
         "aria-label",
@@ -309,7 +312,7 @@ const breadcrumbs = [
         : "-top-3";
 
       const copyButton = document.createElement("button");
-      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.className = `copy-code absolute end-2 top-2 rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
       copyButton.innerHTML = copyButtonLabel;
       codeBlock.setAttribute("tabindex", "0");
       codeBlock.appendChild(copyButton);
