@@ -6,3 +6,11 @@ allowBuilds:
   # Mermaid CLI pulls puppeteer, but the browser is supplied through
   # PUPPETEER_EXECUTABLE_PATH, so its download step is never needed.
   puppeteer: false
+
+# Dev-only transitive advisories: pulled up to patched versions so the audit is
+# clean. None of these reach the browser bundle.
+overrides:
+  fflate: ">=0.7.5"
+  katex: ">=0.18.2"
+  postcss-selector-parser: ">=6.1.5"
+  minimatch: ">=11.0.1"

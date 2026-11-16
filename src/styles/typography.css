@@ -47,9 +47,9 @@
       @apply border-border mx-auto border;
     }
 
-    /* Diagrams: keep the whole figure readable in a narrow column. */
+    /* Diagrams: give the figure the full column so the labels stay legible. */
     figure {
-      @apply mx-auto my-8 max-w-[520px];
+      @apply mx-auto my-8 max-w-full;
     }
 
     figure img {

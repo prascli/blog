@@ -51,7 +51,7 @@ Two details make it worse than a novelty:
 ## A rule for it
 
 <figure>
-  <img src="/diagrams/hidden-text-in-agent-instruction-files-0.svg" alt="One line in AGENTS.md holds a visible instruction, a run of 150 or more blank characters, and a second instruction. A reviewer in a diff sees one ordinary line while the agent reads two instructions. The CFG137 rule reports it at warn severity, and --strict turns it into a failed build." width="477" height="741" loading="lazy" decoding="async">
+  <img src="/diagrams/hidden-text-in-agent-instruction-files-0.svg" alt="One line in AGENTS.md holds a visible instruction, a run of 150 or more blanks, and a second instruction. A reviewer in a diff sees one ordinary line, while an agent on every run reads two instructions. CFG137 reports it at warn, and --strict fails the build." width="808" height="625" loading="lazy" decoding="async">
   <figcaption>One line, two readers, two different meanings.</figcaption>
 </figure>
 

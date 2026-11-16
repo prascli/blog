@@ -1,11 +1,15 @@
 flowchart TB
-  subgraph FILE["AGENTS.md, one line"]
-    V1["visible instruction"]
-    GAP["150 or more blank characters<br/>space, tab, U+00A0, U+3000"]
-    V2["second instruction"]
-    V1 --- GAP --- V2
+  subgraph LINE["one line in AGENTS.md"]
+    direction LR
+    V1["visible instruction"] --- GAP["150 or more blanks"] --- V2["second instruction"]
   end
-  V2 --> H["Reviewer in a diff:<br/>one ordinary line"]
-  V2 --> A["Agent on every run:<br/>two instructions"]
-  A --> RULE["CFG137 reports it at warn"]
-  RULE --> CI["--strict turns it into a failed build"]
+  subgraph WHO["who reads it"]
+    direction LR
+    H["a reviewer in a diff<br/>sees one ordinary line"]
+    A["an agent on every run<br/>reads two instructions"]
+  end
+  subgraph RULE["what catches it"]
+    direction LR
+    C["CFG137 reports it at warn"] --> S["--strict fails the build"]
+  end
+  LINE --> WHO --> RULE
