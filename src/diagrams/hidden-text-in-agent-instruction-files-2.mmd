@@ -1,0 +1,14 @@
+flowchart TB
+  subgraph LINE["one line in AGENTS.md"]
+    direction LR
+    V["visible instruction"] --- G["150+ blanks"] --- H["hidden instruction"]
+  end
+  subgraph WHO["who reads that line"]
+    direction LR
+    R["a reviewer sees one plain line"] --- A["an agent reads two instructions"]
+  end
+  subgraph RULE["what catches it"]
+    direction LR
+    C["CFG137 warns"] --> F["--strict fails the build"]
+  end
+  LINE --> WHO --> RULE

@@ -20,7 +20,8 @@
     "test": "playwright test",
     "test:a11y": "playwright test tests/a11y.spec.ts",
     "test:ci": "playwright test --reporter=line",
-    "lighthouse": "node scripts/lighthouse.mjs"
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "diagrams:check": "node scripts/check-diagram-bounds.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.6",
