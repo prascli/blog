@@ -8,24 +8,41 @@ import Datetime from "./Datetime.astro";
 
 type Props = {
   variant?: "h2" | "h3";
+  /** Hide the category kicker when the surrounding page already names it. */
+  hideCategory?: boolean;
 } & CollectionEntry<"posts">;
 
-const { variant: Heading = "h2", id, data, filePath, body } = Astro.props;
+const {
+  variant: Heading = "h2",
+  hideCategory = false,
+  id,
+  data,
+  filePath,
+  body,
+} = Astro.props;
 
 const { title, description, category, tags, ...props } = data;
 ---
 
-<li class="border-border group border-b py-7 first:pt-0">
+<li class="border-border group border-b py-7 first:pt-0 last:border-b-0">
   <div class="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-    <a
-      href={categoryUrl(category)}
-      class="kicker hover:text-accent transition-colors"
-    >
-      {categoryLabel(category)}
-    </a>
-    <span aria-hidden="true" class="text-muted-foreground/60 text-xs">/</span>
+    {
+      !hideCategory && (
+        <>
+          <a
+            href={categoryUrl(category)}
+            class="kicker hover:text-accent transition-colors"
+          >
+            {categoryLabel(category)}
+          </a>
+          <span aria-hidden="true" class="text-muted-foreground text-xs">
+            /
+          </span>
+        </>
+      )
+    }
     <Datetime {...props} />
-    <span aria-hidden="true" class="text-muted-foreground/60 text-xs">/</span>
+    <span aria-hidden="true" class="text-muted-foreground text-xs">/</span>
     <span class="text-muted-foreground text-xs">{readingTimeLabel(body)}</span>
   </div>
 

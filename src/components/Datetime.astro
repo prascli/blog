@@ -34,7 +34,7 @@ const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(
   resolveTimezone(postTimezone ?? config.site.timezone)
 );
 
-const date = datetime.format("D MMM, YYYY");
+const date = datetime.format("D MMM YYYY");
 ---
 
 <div
@@ -42,7 +42,7 @@ const date = datetime.format("D MMM, YYYY");
 >
   <IconCalendar
     class:list={[
-      "inline-block size-6 min-w-5.5",
+      "inline-block size-4 min-w-3.5",
       { "scale-90": size === "sm" },
     ]}
   />

@@ -38,7 +38,7 @@ const groups = CATEGORIES.map(category => {
         groups.map(group => (
           <section>
             <div class="mb-3 flex items-baseline justify-between gap-4">
-              <h2 class="text-xl font-medium">
+              <h2 class="text-2xl font-medium sm:text-3xl">
                 <a
                   href={categoryUrl(group.slug)}
                   class="text-foreground hover:text-accent transition-colors"
@@ -52,7 +52,7 @@ const groups = CATEGORIES.map(category => {
             </div>
             <ul>
               {group.posts.map(post => (
-                <Card {...post} variant="h3" />
+                <Card {...post} variant="h3" hideCategory />
               ))}
             </ul>
           </section>

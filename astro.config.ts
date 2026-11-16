@@ -54,7 +54,8 @@ export default defineConfig({
     shikiConfig: {
       themes: { light: "github-light", dark: "github-dark" },
       defaultColor: false,
-      wrap: false,
+      // Long single-line examples must stay readable: wrap instead of clipping.
+      wrap: true,
       transformers: [
         transformerFileName({ style: "v2", hideDot: false }),
         transformerNotationHighlight(),
