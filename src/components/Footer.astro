@@ -1,0 +1,73 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Socials from "./Socials.astro";
+import config from "@/config";
+
+type Props = {
+  noMarginTop?: boolean;
+} & HTMLAttributes<"footer">;
+
+const { noMarginTop = false, class: className, ...attrs } = Astro.props;
+
+const currentYear = new Date().getFullYear();
+const locale = Astro.currentLocale ?? config.site.lang;
+---
+
+<footer
+  class:list={["app-layout mt-auto", { "mt-auto": !noMarginTop }, className]}
+  {...attrs}
+>
+  <div
+    class="border-border mt-16 flex flex-col gap-6 border-t py-8 sm:flex-row sm:items-start sm:justify-between"
+  >
+    <div class="max-w-sm">
+      <p class="text-foreground font-serif text-base">
+        {config.site.title} · Engineering Journal
+      </p>
+      <p class="text-muted-foreground mt-1 text-sm leading-relaxed">
+        Building reliable systems. Measuring what matters. Sharing what works.
+      </p>
+      <p class="text-muted-foreground mt-3 text-xs">Powered by Qansa.</p>
+    </div>
+
+    <nav aria-label="Footer" class="flex flex-col gap-2 text-sm">
+      <a
+        href={getRelativeLocaleUrl(locale, "posts")}
+        class="text-muted-foreground hover:text-accent">Writing</a
+      >
+      <a
+        href={getRelativeLocaleUrl(locale, "categories")}
+        class="text-muted-foreground hover:text-accent">Categories</a
+      >
+      <a
+        href={getRelativeLocaleUrl(locale, "archives")}
+        class="text-muted-foreground hover:text-accent">Archive</a
+      >
+      <a
+        href={getRelativeLocaleUrl(locale, "about")}
+        class="text-muted-foreground hover:text-accent">About</a
+      >
+      <a
+        href={getRelativeLocaleUrl(locale, "rss.xml")}
+        class="text-muted-foreground hover:text-accent">RSS</a
+      >
+    </nav>
+
+    <div class="flex flex-col gap-3">
+      <Socials />
+      <p class="text-muted-foreground max-w-[16rem] text-xs leading-relaxed">
+        © {currentYear}
+        {config.site.author}. Text licensed CC BY 4.0. Built with Astro on the{
+          " "
+        }
+        <a
+          href="https://github.com/satnaing/astro-paper"
+          class="hover:text-accent underline decoration-dotted underline-offset-4"
+          rel="noopener">AstroPaper</a
+        >
+        theme (MIT).
+      </p>
+    </div>
+  </div>
+</footer>

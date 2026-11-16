@@ -1,0 +1,58 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Card from "@/components/Card.astro";
+import Footer from "@/components/Footer.astro";
+import Pagination from "@/components/Pagination.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { CATEGORIES, categoryLabel } from "@/utils/categories";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const t = useTranslations(config.site.lang);
+
+  return CATEGORIES.flatMap(category => {
+    const categoryPosts = getSortedPosts(
+      posts.filter(post => post.data.category === category.slug)
+    );
+    if (categoryPosts.length === 0) return [];
+
+    return paginate(categoryPosts, {
+      params: { category: category.slug },
+      props: {
+        categorySlug: category.slug,
+        categoryBlurb: t.pages.categoryDesc,
+      },
+      pageSize: config.posts.perPage,
+    });
+  });
+}) satisfies GetStaticPaths;
+
+const { page, categorySlug, categoryBlurb } = Astro.props;
+const label = categoryLabel(categorySlug);
+---
+
+<Layout
+  title={`${label} | ${config.site.title}`}
+  description={`${categoryBlurb} ${label}. Engineering articles by ${config.site.author}.`}
+>
+  <Header />
+
+  <Breadcrumb />
+
+  <Main pageTitle={label} pageDesc={`${categoryBlurb} ${label}.`}>
+    <ul>
+      {page.data.map(post => <Card {...post} />)}
+    </ul>
+  </Main>
+
+  <Pagination {page} />
+
+  <Footer noMarginTop={page.lastPage > 1} />
+</Layout>

@@ -1,0 +1,11 @@
+flowchart TB
+  subgraph FILE["AGENTS.md, one line"]
+    V1["visible instruction"]
+    GAP["150 or more blank characters<br/>space, tab, U+00A0, U+3000"]
+    V2["second instruction"]
+    V1 --- GAP --- V2
+  end
+  V2 --> H["Reviewer in a diff:<br/>one ordinary line"]
+  V2 --> A["Agent on every run:<br/>two instructions"]
+  A --> RULE["CFG137 reports it at warn"]
+  RULE --> CI["--strict turns it into a failed build"]

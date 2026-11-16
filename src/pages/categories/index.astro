@@ -1,0 +1,65 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { CATEGORIES, categoryUrl } from "@/utils/categories";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+
+const groups = CATEGORIES.map(category => {
+  const categoryPosts = getSortedPosts(
+    posts.filter(post => post.data.category === category.slug)
+  );
+  return { ...category, count: categoryPosts.length, posts: categoryPosts };
+}).filter(group => group.count > 0);
+---
+
+<Layout
+  title={`${t.pages.categoriesTitle} | ${config.site.title}`}
+  description={t.pages.categoriesDesc}
+>
+  <Header />
+
+  <Breadcrumb />
+
+  <Main pageTitle={t.pages.categoriesTitle} pageDesc={t.pages.categoriesDesc}>
+    <div class="space-y-12">
+      {
+        groups.map(group => (
+          <section>
+            <div class="mb-3 flex items-baseline justify-between gap-4">
+              <h2 class="text-xl font-medium">
+                <a
+                  href={categoryUrl(group.slug)}
+                  class="text-foreground hover:text-accent transition-colors"
+                >
+                  {group.label}
+                </a>
+              </h2>
+              <span class="text-muted-foreground font-mono text-xs">
+                {group.count} {group.count === 1 ? "article" : "articles"}
+              </span>
+            </div>
+            <ul>
+              {group.posts.map(post => (
+                <Card {...post} variant="h3" />
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </Main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,192 @@
+---
+import { Font } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
+import { resolveDefaultOgImagePath } from "@/utils/resolveDefaultOgImagePath";
+import { getAssetPath } from "@/utils/withBase";
+import config from "@/config";
+import "@/styles/global.css";
+import CustomHead from "@/custom/Head.astro";
+import CustomBodyEnd from "@/custom/BodyEnd.astro";
+
+type Props = {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalURL?: string;
+  /** Open Graph object type. Post pages override this with "article". */
+  ogType?: "website" | "article";
+};
+
+const { site } = config;
+
+const {
+  title = site.title,
+  description = site.description,
+  ogImage = resolveDefaultOgImagePath(config),
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  ogType = "website",
+} = Astro.props;
+
+const socialImageURL = new URL(ogImage, Astro.site ?? Astro.url);
+const rssHref = getAssetPath("rss.xml");
+
+// Site-wide structured data. Post pages add BlogPosting and BreadcrumbList on
+// top of this from PostLayout.
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${site.url}#person`,
+  name: site.author,
+  url: site.profile,
+  jobTitle: "Senior Software Engineer",
+  description:
+    "Backend engineering, databases, infrastructure, AI engineering, and open source.",
+  knowsAbout: [
+    "Backend Engineering",
+    "Database Engineering",
+    "DevOps",
+    "AI Engineering",
+    "Open Source",
+  ],
+  sameAs: ["https://github.com/prascli"],
+  worksFor: {
+    "@type": "Organization",
+    name: "Qansa",
+    url: "https://qansa.web.id/",
+  },
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${site.url}#website`,
+  name: site.title,
+  alternateName: `${site.author} — Engineering Journal`,
+  url: site.url,
+  description: site.description,
+  inLanguage: site.lang,
+  publisher: { "@id": `${site.url}#person` },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${new URL("search/", site.url).href}?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+// JSON.stringify leaves `<` alone, so a title containing `</script>` would end
+// the ld+json block early. `\u003c` reads back as `<` for JSON parsers.
+const jsonLd = JSON.stringify([personJsonLd, websiteJsonLd]).replace(
+  /</g,
+  "\\u003c"
+);
+---
+
+<!doctype html>
+<html
+  dir={site.dir ?? "ltr"}
+  lang={Astro.currentLocale ?? site.lang}
+  class="overflow-y-scroll scroll-smooth"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={getAssetPath("favicon.svg")} />
+    <link rel="icon" href={getAssetPath("favicon.ico")} sizes="32x32" />
+    <link rel="apple-touch-icon" href={getAssetPath("apple-touch-icon.png")} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Fonts: self-hosted at build time by the Astro Fonts API -->
+    <Font
+      cssVariable="--font-sans"
+      preload={[{ subset: "latin", weight: 400, style: "normal" }]}
+    />
+    <Font cssVariable="--font-serif" />
+    <Font cssVariable="--font-mono" />
+
+    <!-- Primary meta -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content={site.author} />
+    <link rel="sitemap" href={getAssetPath("sitemap-index.xml")} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:alt" content={title} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+
+    <!-- RSS autodiscovery -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={site.title}
+      href={new URL(rssHref, Astro.site)}
+    />
+
+    <!-- Filled at runtime by theme.ts to match the current background colour -->
+    <meta name="theme-color" content="" />
+
+    <!-- Person + WebSite structured data -->
+    <script type="application/ld+json" is:inline set:html={jsonLd} />
+
+    <!-- Extra head content injected by child layouts (e.g. JSON-LD, article meta) -->
+    <slot name="head" />
+
+    {
+      site.googleVerification && (
+        <meta
+          name="google-site-verification"
+          content={site.googleVerification}
+        />
+      )
+    }
+
+    <!--
+      Inline FOUC-prevention script: sets data-theme on <html> before
+      the browser paints. Runs synchronously, no defer/async.
+    -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const theme = stored ?? (prefersDark ? "dark" : "light");
+        const root = document.firstElementChild;
+        root?.setAttribute("data-theme", theme);
+        root?.classList.toggle("dark", theme === "dark");
+        // Expose value so theme.ts can skip re-detection.
+        window.__theme = { value: theme };
+      })();
+    </script>
+
+    <ClientRouter />
+
+    <CustomHead {title} {description} />
+  </head>
+  <body
+    class="bg-background font-app text-foreground selection:bg-accent/75 selection:text-accent-foreground flex min-h-svh flex-col"
+  >
+    <slot />
+    <script>
+      import "@/scripts/theme";
+    </script>
+    <CustomBodyEnd />
+  </body>
+</html>

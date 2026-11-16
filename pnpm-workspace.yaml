@@ -1,0 +1,8 @@
+# pnpm < 10.5 refuses a workspace file without `packages`
+packages: ["."]
+allowBuilds:
+  esbuild: true
+  sharp: true
+  # Mermaid CLI pulls puppeteer, but the browser is supplied through
+  # PUPPETEER_EXECUTABLE_PATH, so its download step is never needed.
+  puppeteer: false

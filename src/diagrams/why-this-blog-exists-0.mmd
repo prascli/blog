@@ -1,0 +1,8 @@
+flowchart TB
+  PR["A merged pull request"] --> Q["Candidate queue<br/>scored, deduped"]
+  Q --> PICK["One picked per week"]
+  PICK --> TREND["Trend check:<br/>is there a live link?"]
+  TREND --> DRAFT["Draft in markdown"]
+  DRAFT --> FIG["Diagram rendered at build"]
+  FIG --> BLOG["blog.qansa.web.id<br/>canonical page, 200 checked"]
+  BLOG --> DEV["dev.to with canonical_url"]
