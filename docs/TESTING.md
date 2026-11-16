@@ -82,6 +82,19 @@ reintroduce:
 - Playwright's readiness probe now targets `127.0.0.1` explicitly; on a runner
   where `localhost` resolves to `::1` the preview server was unreachable and the
   suite timed out.
+- Header navigation links were 20px tall and the search icon 16px, under the
+  WCAG 2.2 AA 24×24 target minimum; both now carry padding and a minimum size
+  (28px and 32px measured).
+- The article measure started at 92 characters per line. Body text is now 17px
+  with a 43rem column, which measures 81 characters per line at 1280px.
+
+`astro preview` allows one instance at a time. When a preview is already running
+(for a manual check or a Lighthouse run), point the suite at it instead of
+starting a second one:
+
+```bash
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:4321 pnpm test
+```
 
 ## Performance notes
 

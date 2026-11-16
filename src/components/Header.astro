@@ -87,7 +87,7 @@ const navItems = [
               <a
                 href={getRelativeLocaleUrl(locale, path.slice(1))}
                 class:list={[
-                  "text-muted-foreground hover:text-accent block py-1.5 font-medium transition-colors sm:py-0",
+                  "text-muted-foreground hover:text-accent block py-1.5 font-medium transition-colors sm:py-1",
                   { "text-foreground active-nav": isActive(path) },
                 ]}
               >
@@ -102,7 +102,7 @@ const navItems = [
             <li class="sm:border-border sm:ms-1 sm:border-s sm:ps-5">
               <LinkButton
                 href={getRelativeLocaleUrl(locale, "search")}
-                class="text-muted-foreground hover:text-accent flex items-center gap-2 py-1.5 sm:py-0"
+                class="text-muted-foreground hover:text-accent flex min-h-6 min-w-6 items-center justify-center gap-2 py-1.5"
                 title={t.nav.search}
                 aria-label={t.nav.search}
               >
