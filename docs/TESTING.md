@@ -96,6 +96,26 @@ starting a second one:
 PLAYWRIGHT_BASE_URL=http://127.0.0.1:4321 pnpm test
 ```
 
+## Production (live domain) results
+
+Measured against `https://blog.qansa.web.id` after the final deploy, desktop
+preset, real network:
+
+| Route | Performance | Accessibility | Best practices | SEO | LCP | CLS | TBT |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `/` | 99 | 100 | 81 | 100 | 0.9 s | 0.001 | 150 ms |
+| `/posts/hidden-text-in-agent-instruction-files/` | 99 | 100 | 81 | 100 | 1.1 s | 0 | 120 ms |
+
+The build itself scores 100 in all four categories (see the table above). The
+live best-practices score is 81 because Cloudflare injects its own
+bot-management precursor script (`/cdn-cgi/challenge-platform/scripts/precursor/main.js`)
+into the response and that script calls the deprecated `StorageType.persistent`.
+Nothing in this repository can change that without turning off Bot Fight Mode for
+the whole zone, which is a security decision, not a site one. Two other
+injections were removed because they were pure cost: Cloudflare Web Analytics
+(`beacon.min.js`, the zone had automatic setup on) and email address obfuscation
+(`email-decode.min.js`).
+
 ## Performance notes
 
 - Fonts are fetched once at build time and emitted as local `woff2` files with
