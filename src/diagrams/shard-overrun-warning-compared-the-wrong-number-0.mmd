@@ -1,0 +1,14 @@
+flowchart LR
+  subgraph SEED["what the seed predicts"]
+    direction TB
+    A1["400s serial sum<br/>of the files in the shard"]
+    A2["the shard runs as 4 parallel jobs<br/>so 100s is the expected wall time"]
+    A1 --> A2
+  end
+  subgraph CHECK["what the check compared"]
+    direction TB
+    B1["before<br/>wall 160s vs 400s<br/>quiet until a 6x slowdown"]
+    B2["after<br/>wall 160s vs 100s<br/>1.6x, warned"]
+    B1 --> B2
+  end
+  SEED --> CHECK
