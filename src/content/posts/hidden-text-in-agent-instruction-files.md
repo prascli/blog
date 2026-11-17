@@ -51,8 +51,8 @@ Two details make it worse than a novelty:
 ## A rule for it
 
 <figure>
-  <img src="/diagrams/hidden-text-in-agent-instruction-files-2.svg" alt="One line in AGENTS.md holds a visible instruction, 150 or more blanks and a hidden instruction. A reviewer sees one plain line, while an agent reads two instructions. CFG137 warns, and --strict fails the build." width="766" height="462" loading="lazy" decoding="async">
-  <figcaption>One line, two readers, two different meanings.</figcaption>
+  <img src="/diagrams/hidden-text-in-agent-instruction-files-comic.png" alt="Three-panel comic. In the diff the reviewer sees one normal line; the agent reports a second instruction after 150 blank characters; the reviewer asks what blank characters, while CFG137 warns and --strict fails the build." width="1200" height="675" loading="lazy" decoding="async">
+  <figcaption>One line, two readers, and a reviewer who never saw the blanks.</figcaption>
 </figure>
 
 I contributed [CFG137](https://github.com/cfgaudit/cfgaudit/pull/1758) to
