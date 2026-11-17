@@ -19,26 +19,37 @@ const OUT_DIR = "public/diagrams";
 const MERMAID_CONFIG = {
   theme: "base",
   themeVariables: {
-    background: "#f7f4ee",
-    primaryColor: "#fffdf9",
-    primaryTextColor: "#16181c",
-    primaryBorderColor: "#b0a79a",
-    secondaryColor: "#f1ece3",
-    secondaryTextColor: "#16181c",
-    tertiaryColor: "#efe9df",
-    tertiaryTextColor: "#16181c",
-    lineColor: "#3f454e",
-    textColor: "#16181c",
-    clusterBkg: "#efe9df",
-    titleColor: "#16181c",
-    clusterTextColor: "#16181c",
-    clusterBorder: "#c3baad",
-    edgeLabelBackground: "#f7f4ee",
+    background: "#ffffff",
+    primaryColor: "#ffffff",
+    primaryTextColor: "#0f172a",
+    primaryBorderColor: "#64748b",
+    secondaryColor: "#f1f5f9",
+    secondaryTextColor: "#0f172a",
+    tertiaryColor: "#f8fafc",
+    tertiaryTextColor: "#0f172a",
+    lineColor: "#475569",
+    textColor: "#0f172a",
+    clusterBkg: "#f8fafc",
+    clusterBorder: "#cbd5e1",
+    edgeLabelBackground: "#ffffff",
+    titleColor: "#0f172a",
+    clusterTextColor: "#0f172a",
     fontFamily:
       'ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
-    fontSize: "17px",
+    fontSize: "15px",
   },
-  flowchart: { curve: "basis", padding: 12, diagramPadding: 24, nodeSpacing: 30, rankSpacing: 45 },
+  themeCSS:
+    ".node rect, .node polygon { rx: 3px; ry: 3px; }" +
+    ".cluster rect { rx: 4px; ry: 4px; }" +
+    ".cluster-label span, .cluster-label text { text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; }" +
+    ".edgePath .path { stroke-width: 1.4px; }",
+  flowchart: {
+    curve: "linear",
+    padding: 14,
+    diagramPadding: 24,
+    nodeSpacing: 40,
+    rankSpacing: 60,
+  },
 };
 
 const PUPPETEER_CONFIG = {

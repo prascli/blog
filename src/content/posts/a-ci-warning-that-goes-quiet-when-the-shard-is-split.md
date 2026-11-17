@@ -82,6 +82,6 @@ The version of this mistake that costs the most is the quiet one. It does not fa
 The diagram for this piece is short on purpose. One seed number, one division, two verdicts:
 
 <figure>
-  <img src="/diagrams/shard-overrun-warning-compared-the-wrong-number-0.svg" alt="A seed predicts 400 seconds of serial work for the shard, which runs as 4 parallel jobs so 100 seconds is the expected wall time. Before, the check compared 160 seconds with 400 seconds and stayed quiet until a six-fold slowdown. After, it compared 160 seconds with 100 seconds, found 1.6 times, and warned." width="653" height="389" loading="lazy" decoding="async">
+  <img src="/diagrams/shard-overrun-warning-compared-the-wrong-number-0.svg" alt="A seed predicts 400 seconds of serial work for the shard, which runs as 4 parallel jobs so 100 seconds is the expected wall time. Before, the check compared 160 seconds with 400 seconds and stayed quiet until a six-fold slowdown. After, it compared 160 seconds with 100 seconds, found 1.6 times, and warned." width="709" height="409" loading="lazy" decoding="async">
   <figcaption>The same 160 seconds, two verdicts, one division apart.</figcaption>
 </figure>
