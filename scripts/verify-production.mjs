@@ -24,10 +24,12 @@ const fail = message => problems.push(message);
 
 /**
  * A deploy just went live, so the edge can answer with a transient 403 from bot
- * heuristics or a 5xx while the new bundle propagates. Retry those briefly;
- * anything else is a real failure.
+ * heuristics, a 5xx while the new bundle propagates, or a 404 for a page that
+ * Cloudflare has not picked up yet. Retry all of those briefly; anything else is
+ * a real failure. A check that *expects* a missing page passes `expectMissing`
+ * so its own 404 is not retried.
  */
-async function get(path, redirect = "follow", attempts = 4) {
+async function get(path, redirect = "follow", attempts = 4, expectMissing = false) {
   let response;
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     response = await fetch(`${base}${path}`, {
@@ -38,7 +40,9 @@ async function get(path, redirect = "follow", attempts = 4) {
         "cache-control": "no-cache",
       },
     });
-    const retryable = [403, 429, 500, 502, 503, 504].includes(response.status);
+    const retryable =
+      [403, 429, 500, 502, 503, 504].includes(response.status) ||
+      (!expectMissing && response.status === 404);
     if (!retryable) return response;
     await new Promise(resolve => setTimeout(resolve, 1500 * (attempt + 1)));
   }
@@ -130,7 +134,7 @@ async function main() {
     }
   }
 
-  const missing = await get("/this-page-does-not-exist", "manual");
+  const missing = await get("/this-page-does-not-exist", "manual", 1, true);
   if (missing.status !== 404) fail(`unknown path -> ${missing.status}, expected 404`);
   else pass("unknown path returns 404");
 
