@@ -63,6 +63,10 @@ jobs:
       - name: Check Cloudflare Pages free-plan limits
         run: node scripts/check-pages-limits.mjs dist
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.18.0
+
       - uses: actions/setup-node@v5
         with:
           node-version: 22
