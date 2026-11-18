@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph BEFORE["before: prose only"]
+    direction TB
+    B1["argon gc"]
+    B2["restore preview"]
+    B3["restore reset"]
+    B4["restore branch"]
+    B1 --> B2 --> B3 --> B4
+  end
+  subgraph AFTER["after: -o json"]
+    direction TB
+    A1["gc: dry_run, branches, entries_removed"]
+    A2["preview: branch, current_lsn, target_lsn, operations_to_discard, affected_collections"]
+    A3["reset: branch, target_lsn, backup_branch (if created)"]
+    A4["branch: new branch name, forked LSN"]
+    A1 --> A2 --> A3 --> A4
+  end
+  BEFORE --> AFTER
