@@ -8,7 +8,7 @@ tags:
   - Argon
   - CLI
   - JSON
-  - Go
+  - Golang
 featured: false
 draft: false
 ---
