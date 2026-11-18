@@ -34,30 +34,28 @@ const groups = CATEGORIES.map(category => {
 
   <Main pageTitle={t.pages.categoriesTitle} pageDesc={t.pages.categoriesDesc}>
     <div class="space-y-12">
-      {
-        groups.map(group => (
-          <section>
-            <div class="mb-3 flex items-baseline justify-between gap-4">
-              <h2 class="text-2xl font-medium sm:text-3xl">
-                <a
-                  href={categoryUrl(group.slug)}
-                  class="text-foreground hover:text-accent transition-colors"
-                >
-                  {group.label}
-                </a>
-              </h2>
-              <span class="text-muted-foreground font-mono text-xs">
-                {group.count} {group.count === 1 ? "article" : "articles"}
-              </span>
-            </div>
-            <ul>
-              {group.posts.map(post => (
-                <Card {...post} variant="h3" hideCategory />
-              ))}
-            </ul>
-          </section>
-        ))
-      }
+      {groups.map(group => (
+        <section>
+          <div class="mb-3 flex items-baseline justify-between gap-4">
+            <h2 class="text-2xl font-medium sm:text-3xl">
+              <a
+                href={categoryUrl(group.slug)}
+                class="text-foreground hover:text-accent transition-colors"
+              >
+                {group.label}
+              </a>
+            </h2>
+            <span class="text-muted-foreground font-mono text-xs">
+              {group.count} {group.count === 1 ? "article" : "articles"}
+            </span>
+          </div>
+          <ul>
+            {group.posts.map(post => (
+              <Card {...post} variant="h3" hideCategory />
+            ))}
+          </ul>
+        </section>
+      ))}
     </div>
   </Main>
 

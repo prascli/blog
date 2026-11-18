@@ -48,7 +48,9 @@ const label = categoryLabel(categorySlug);
 
   <Main pageTitle={label} pageDesc={`${categoryBlurb} ${label}.`}>
     <ul>
-      {page.data.map(post => <Card {...post} />)}
+      {page.data.map(post => (
+        <Card {...post} />
+      ))}
     </ul>
   </Main>
 
