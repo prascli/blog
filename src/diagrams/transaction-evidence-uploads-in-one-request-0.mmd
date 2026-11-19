@@ -1,0 +1,16 @@
+flowchart LR
+  subgraph BEFORE["BEFORE: ONE FILE PER SUBMISSION"]
+    R1["Receipt"] --> REQ1["Request 1"]
+    I1["Invoice"] --> REQ2["Request 2"]
+    T1["Transfer proof"] --> REQ3["Request 3"]
+    REQ1 --> A1["Audit entry 1"]
+    REQ2 --> A2["Audit entry 2"]
+    REQ3 --> A3["Audit entry 3"]
+  end
+  subgraph AFTER["AFTER: ONE REQUEST, MANY FILES"]
+    M["MultipartFile[]"] --> V["validateFile()"]
+    V --> OK["Store accepted files"]
+    V --> BAD["Report rejected files"]
+    OK --> HX["HX-Trigger refresh"]
+    BAD --> RED["Panel stays red"]
+  end
