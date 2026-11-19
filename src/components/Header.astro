@@ -51,13 +51,9 @@ const navItems = [
 </a>
 
 <header class="app-layout">
-  <div
-    class="border-border flex w-full items-center justify-between gap-4 border-b py-5 sm:py-7"
-  >
+  <div class="border-border flex w-full items-center justify-between gap-4 border-b py-5 sm:py-7">
     <a href={getRelativeLocaleUrl(locale, "")} class="group flex flex-col">
-      <span
-        class="text-foreground group-hover:text-accent font-serif text-xl leading-none font-medium tracking-tight transition-colors sm:text-[1.4rem]"
-      >
+      <span class="text-foreground group-hover:text-accent font-serif text-xl leading-none font-medium tracking-tight transition-colors sm:text-[1.4rem]">
         {site.author}
       </span>
       <span class="kicker mt-2 text-[10px]">Engineering Journal</span>
@@ -81,54 +77,48 @@ const navItems = [
         id="menu-items"
         class="border-border bg-background max-w-app absolute inset-x-0 top-[4.6rem] z-40 mx-auto hidden w-full flex-col gap-1 border-b px-4 py-3 text-sm shadow-xs sm:static sm:flex sm:w-auto sm:flex-row sm:items-center sm:gap-6 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none"
       >
-        {
-          navItems.map(({ path, label }) => (
-            <li>
-              <a
-                href={getRelativeLocaleUrl(locale, path.slice(1))}
-                class:list={[
-                  "text-muted-foreground hover:text-accent block py-1.5 font-medium transition-colors sm:py-1",
-                  { "text-foreground active-nav": isActive(path) },
-                ]}
-              >
-                {label}
-              </a>
-            </li>
-          ))
-        }
+        {navItems.map(({ path, label }) => (
+          <li>
+            <a
+              href={getRelativeLocaleUrl(locale, path.slice(1))}
+              class:list={[
+                "text-muted-foreground hover:text-accent block py-1.5 font-medium transition-colors sm:py-1",
+                { "text-foreground active-nav": isActive(path) },
+              ]}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
 
-        {
-          features.search !== false && (
-            <li class="sm:border-border sm:ms-1 sm:border-s sm:ps-5">
-              <LinkButton
-                href={getRelativeLocaleUrl(locale, "search")}
-                class="text-muted-foreground hover:text-accent flex min-h-6 min-w-6 items-center justify-center gap-2 py-1.5"
-                title={t.nav.search}
-                aria-label={t.nav.search}
-              >
-                <IconSearch class="size-4" />
-                <span class="sm:sr-only">{t.nav.search}</span>
-              </LinkButton>
-            </li>
-          )
-        }
+        {features.search !== false && (
+          <li class="sm:border-border sm:ms-1 sm:border-s sm:ps-5">
+            <LinkButton
+              href={getRelativeLocaleUrl(locale, "search")}
+              class="text-muted-foreground hover:text-accent flex min-h-6 min-w-6 items-center justify-center gap-2 py-1.5"
+              title={t.nav.search}
+              aria-label={t.nav.search}
+            >
+              <IconSearch class="size-4" />
+              <span class="sm:sr-only">{t.nav.search}</span>
+            </LinkButton>
+          </li>
+        )}
 
-        {
-          features.lightAndDarkMode && (
-            <li>
-              <button
-                id="theme-btn"
-                class="text-muted-foreground hover:text-accent relative flex size-8 items-center justify-center"
-                title={t.a11y.toggleTheme}
-                aria-label={t.a11y.toggleTheme}
-                aria-live="polite"
-              >
-                <IconMoon class="absolute size-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-                <IconSunHigh class="absolute size-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-              </button>
-            </li>
-          )
-        }
+        {features.lightAndDarkMode && (
+          <li>
+            <button
+              id="theme-btn"
+              class="text-muted-foreground hover:text-accent relative flex size-8 items-center justify-center"
+              title={t.a11y.toggleTheme}
+              aria-label={t.a11y.toggleTheme}
+              aria-live="polite"
+            >
+              <IconMoon class="absolute size-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+              <IconSunHigh class="absolute size-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   </div>

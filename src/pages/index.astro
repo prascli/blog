@@ -79,54 +79,48 @@ const homePath = getRelativeLocaleUrl(locale, "");
       </div>
     </section>
 
-    {
-      usedCategories.length > 0 && (
-        <section id="categories" class="border-border border-b py-7">
-          <h2 class="kicker mb-4">{t.home.categories}</h2>
-          <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-            {usedCategories.map(category => (
-              <li>
-                <a
-                  href={categoryUrl(category.slug)}
-                  class="text-muted-foreground hover:text-accent transition-colors"
-                >
-                  {category.label}
-                  <span class="text-muted-foreground ms-1 font-mono text-xs">
-                    {category.count}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {usedCategories.length > 0 && (
+      <section id="categories" class="border-border border-b py-7">
+        <h2 class="kicker mb-4">{t.home.categories}</h2>
+        <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {usedCategories.map(category => (
+            <li>
+              <a
+                href={categoryUrl(category.slug)}
+                class="text-muted-foreground hover:text-accent transition-colors"
+              >
+                {category.label}
+                <span class="text-muted-foreground ms-1 font-mono text-xs">
+                  {category.count}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
-    {
-      featuredPosts.length > 0 && (
-        <section id="featured" class="border-border border-b py-10">
-          <h2 class="kicker mb-5">{t.home.featured}</h2>
-          <ul>
-            {featuredPosts.map(post => (
-              <Card {...post} variant="h3" />
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {featuredPosts.length > 0 && (
+      <section id="featured" class="border-border border-b py-10">
+        <h2 class="kicker mb-5">{t.home.featured}</h2>
+        <ul>
+          {featuredPosts.map(post => (
+            <Card {...post} variant="h3" />
+          ))}
+        </ul>
+      </section>
+    )}
 
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="py-10">
-          <h2 class="kicker mb-5">{t.home.recentPosts}</h2>
-          <ul>
-            {recentPosts.slice(0, postsConfig.perIndex).map(post => (
-              <Card {...post} variant="h3" />
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {recentPosts.length > 0 && (
+      <section id="recent-posts" class="py-10">
+        <h2 class="kicker mb-5">{t.home.recentPosts}</h2>
+        <ul>
+          {recentPosts.slice(0, postsConfig.perIndex).map(post => (
+            <Card {...post} variant="h3" />
+          ))}
+        </ul>
+      </section>
+    )}
 
     <div class="my-10">
       <LinkButton
