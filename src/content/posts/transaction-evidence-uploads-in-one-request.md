@@ -60,5 +60,3 @@ The diagram for this piece shows the before and after:
   <img src="/diagrams/transaction-evidence-uploads-in-one-request-0.svg" alt="Before: three separate uploads each create their own request and audit entry. After: one MultipartFile array is validated, accepted files are stored, rejected files are reported, the panel refreshes through HX-Trigger, and the panel stays red on any failure." width="620" height="1037" loading="lazy" decoding="async">
   <figcaption>Three round trips become one request, with per-file failure reporting.</figcaption>
 </figure>
-EOF
-echo done
