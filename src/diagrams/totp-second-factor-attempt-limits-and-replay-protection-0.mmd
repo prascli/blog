@@ -1,0 +1,21 @@
+sequenceDiagram
+  autonumber
+  participant U as user
+  participant A as api
+  participant T as totp service
+  participant P as postgres
+  U->>A: POST /mfa/enrol
+  A->>T: generate secret
+  T-->>A: secret + otpauth URI
+  A->>P: store secret (encrypted)
+  A-->>U: QR + manual key
+  U->>A: POST /mfa/verify (code)
+  A->>T: verify code (HMAC-SHA1, 30s, 1 step drift)
+  T-->>A: ok / replay / wrong
+  alt accepted
+    A->>P: mark enrolled, store last step
+    A-->>U: recovery codes (hashed, single use)
+  else attempt limit exceeded
+    A-->>U: 429 within window
+  end
+  Note over A,P: enrolment refuses to start when the encryption key is missing
