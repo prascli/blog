@@ -6,7 +6,7 @@ test.describe("article reading experience", () => {
   }) => {
     await page.goto("/posts/hidden-text-in-agent-instruction-files/");
 
-    await expect(page.locator("text=/\\d+ min read/")).toBeVisible();
+    await expect(page.locator("text=/\\d+ min read/").first()).toBeVisible();
     await expect(page.locator("#myBar")).toHaveCount(1);
     // A table of contents is rendered for every article: a side column on wide
     // viewports and a floating control below that, hence one or two instances.
@@ -38,9 +38,9 @@ test.describe("article reading experience", () => {
     page,
   }) => {
     await page.goto("/posts/hidden-text-in-agent-instruction-files/");
-    // Both articles are equal age and share no tag or category, so the section
-    // must not be rendered; the assertion documents that rule.
-    await expect(page.locator("#related")).toHaveCount(0);
+    // The TOTP article now shares the security-engineering category, so the
+    // related section renders for the hidden-text article.
+    await expect(page.locator("#related")).toHaveCount(1);
   });
 });
 
