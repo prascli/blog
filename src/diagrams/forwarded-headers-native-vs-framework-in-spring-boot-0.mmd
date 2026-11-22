@@ -1,0 +1,19 @@
+flowchart LR
+  C(["client"])
+  P(["reverse proxy"])
+  N["RemoteIpValve (native)"]
+  F["ForwardedHeaderFilter (framework)"]
+  R["rate limiter / audit log"]
+  C -.->|"direct, spoofed X-Forwarded-*"| F
+  P -->|"trusted peer only"| N
+  N --> R
+  F -.->|"trusts any peer"| R
+  classDef svc fill:#ffffff,stroke:#64748b,stroke-width:1.4px,color:#0f172a
+  classDef store fill:#f8fafc,stroke:#475569,stroke-width:1.4px,color:#0f172a
+  classDef ext fill:#ffffff,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+  classDef hot fill:#fff7ed,stroke:#c2410c,stroke-width:1.6px,color:#7c2d12
+  classDef note fill:#fffbeb,stroke:#d97706,stroke-dasharray:3 3,color:#78350f
+  class N hot
+  class F ext
+  class R store
+  class C,P svc
