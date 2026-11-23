@@ -1,0 +1,29 @@
+flowchart TB
+  subgraph INPUTS["input boundary"]
+    direction LR
+    CSV(["SPY CSV"]) -->|"1. prices"| CLI{{"CLI"}}
+  end
+  subgraph CORE["skill core"]
+    direction LR
+    CALC["divergence calculator"] ==>|"3. instrument"| BEN["benchmark_*"]
+    CALC -.->|"4. legacy"| LEG["sp500_*"]
+  end
+  subgraph OUT["reports"]
+    direction LR
+    SIG["signal text"] -->|"6. render"| RPT[("markdown report")]
+  end
+  CLI ==>|"2. metadata"| CALC
+  BEN -->|"5. SPY proxy"| SIG
+  LEG -.->|"5. old label"| SIG
+  N["note: default is unknown"]
+  classDef svc fill:#ffffff,stroke:#64748b,stroke-width:1.4px,color:#0f172a
+  classDef store fill:#f8fafc,stroke:#475569,stroke-width:1.4px,color:#0f172a
+  classDef ext fill:#ffffff,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+  classDef hot fill:#fff7ed,stroke:#c2410c,stroke-width:1.6px,color:#7c2d12
+  classDef note fill:#fffbeb,stroke:#d97706,stroke-dasharray:3 3,color:#78350f
+  class CSV ext
+  class CLI svc
+  class CALC hot
+  class BEN,LEG,SIG svc
+  class RPT store
+  class N note
