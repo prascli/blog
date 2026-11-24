@@ -1,0 +1,30 @@
+flowchart TB
+  subgraph PARSE["argument parse"]
+    direction LR
+    SH(["shell"])
+    CLI{{"broom --completions"}}
+    CHECK{"known shell?"}
+    SH -->|"1. request"| CLI
+    CLI -->|"2. name"| CHECK
+  end
+  subgraph CORE["completion build"]
+    direction LR
+    TBL[("option tables")]
+    GEN[["bash / zsh / fish"]]
+    SCRIPT>"stdout script"]
+    TBL ==>|"4. flags + values"| GEN
+    GEN -->|"5. emit"| SCRIPT
+  end
+  CHECK ==>|"3. valid"| GEN
+  CHECK -.->|"else"| ERR["error: exit 2"]
+  SCRIPT -.->|"6. source"| SH
+  classDef svc fill:#ffffff,stroke:#64748b,stroke-width:1.4px,color:#0f172a
+  classDef store fill:#f8fafc,stroke:#475569,stroke-width:1.4px,color:#0f172a
+  classDef ext fill:#ffffff,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+  classDef hot fill:#fff7ed,stroke:#c2410c,stroke-width:1.6px,color:#7c2d12
+  classDef note fill:#fffbeb,stroke:#d97706,stroke-dasharray:3 3,color:#78350f
+  class SH,SCRIPT ext
+  class CLI hot
+  class CHECK,GEN svc
+  class TBL store
+  class ERR note
