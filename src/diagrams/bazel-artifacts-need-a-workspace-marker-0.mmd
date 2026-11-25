@@ -1,0 +1,27 @@
+flowchart TB
+  subgraph FIND["candidate discovery"]
+    direction LR
+    TREE[("project tree")]
+    CLI{{"broom"}}
+    NAME>"bazel-bin / bazel-out"]
+    TREE -->|"1. walk"| CLI
+    CLI -->|"2. exact name"| NAME
+  end
+  subgraph GATE["safety gate"]
+    direction LR
+    MARK{"marker in parent?"}
+    KEEP["leave in place"]
+    SWEEP[["sweep as artifact"]]
+    NAME ==>|"3. check"| MARK
+    MARK -.->|"else"| KEEP
+    MARK -->|"found"| SWEEP
+  end
+  classDef svc fill:#ffffff,stroke:#64748b,stroke-width:1.4px,color:#0f172a
+  classDef store fill:#f8fafc,stroke:#475569,stroke-width:1.4px,color:#0f172a
+  classDef ext fill:#ffffff,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+  classDef hot fill:#fff7ed,stroke:#c2410c,stroke-width:1.6px,color:#7c2d12
+  classDef note fill:#fffbeb,stroke:#d97706,stroke-dasharray:3 3,color:#78350f
+  class TREE ext
+  class CLI,NAME,SWEEP svc
+  class MARK hot
+  class KEEP note
