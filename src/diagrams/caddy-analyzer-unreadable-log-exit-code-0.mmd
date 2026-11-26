@@ -1,0 +1,29 @@
+flowchart TB
+  subgraph READ["reader boundary"]
+    direction LR
+    FILE[("log paths")]
+    STAT{"os.Stat each path"}
+    QUEUE>"available paths"]
+    ERR["record first open error"]
+    FILE -->|"1. validate"| STAT
+    STAT -->|"ok"| QUEUE
+    STAT -.->|"missing"| ERR
+  end
+  subgraph PROC["process boundary"]
+    direction LR
+    RUN{{"caddy-analyze"}}
+    ENGINE[["analysis engine"]]
+    DONE(["exit 1 with file name"])
+    QUEUE ==>|"2. stream lines"| ENGINE
+    ERR ==>|"3. return error"| RUN
+    ENGINE -->|"4. report"| RUN
+    RUN -->|"5. failure"| DONE
+  end
+  classDef svc fill:#ffffff,stroke:#64748b,stroke-width:1.4px,color:#0f172a
+  classDef store fill:#f8fafc,stroke:#475569,stroke-width:1.4px,color:#0f172a
+  classDef ext fill:#ffffff,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+  classDef hot fill:#fff7ed,stroke:#c2410c,stroke-width:1.6px,color:#7c2d12
+  classDef note fill:#fffbeb,stroke:#d97706,stroke-dasharray:3 3,color:#78350f
+  class FILE,QUEUE,ENGINE,RUN,DONE svc
+  class STAT ext
+  class ERR hot
