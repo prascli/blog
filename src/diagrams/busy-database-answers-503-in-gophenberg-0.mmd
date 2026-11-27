@@ -1,0 +1,31 @@
+flowchart TB
+  UI(["editor"])
+  subgraph STORE["store boundary"]
+    direction TB
+    PG[("postgres")]
+    CLS["dbkitpg.Classify"]
+  end
+  subgraph HTTP["http boundary"]
+    direction TB
+    H["save handler"]
+    MAP{"errorResponseFor"}
+    OK["503 database_busy"]
+    OTHER["500 internal"]
+  end
+  UI -->|"1. POST save"| H
+  H -->|"2. statement"| PG
+  PG -.->|"3. deadlock 40P01"| CLS
+  CLS -->|"4. ErrBusy"| MAP
+  MAP ==>|"5. busy"| OK
+  MAP -.->|"5. other"| OTHER
+  OK -->|"6. save again"| UI
+  classDef svc fill:#ffffff,stroke:#64748b,stroke-width:1.4px,color:#0f172a
+  classDef store fill:#f8fafc,stroke:#475569,stroke-width:1.4px,color:#0f172a
+  classDef ext fill:#ffffff,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+  classDef hot fill:#fff7ed,stroke:#c2410c,stroke-width:1.6px,color:#7c2d12
+  classDef note fill:#fffbeb,stroke:#d97706,stroke-dasharray:3 3,color:#78350f
+  class UI ext
+  class PG store
+  class CLS,H,OTHER svc
+  class MAP svc
+  class OK hot
